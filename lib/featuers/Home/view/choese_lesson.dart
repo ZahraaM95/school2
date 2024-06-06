@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_9/controller/auth/login_controller.dart';
 import 'package:flutter_application_9/core/constant/color.dart';
 import 'package:flutter_application_9/featuers/quiz/quiz.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
@@ -39,46 +40,65 @@ class ChooseLessonesListView extends StatelessWidget {
               return const Center(child: Text('لا توجد دروس'));
             }
 
-            return ListView(
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    '${controller.season.length} / ${controller.season.length} ',
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-                Visibility(
-                  visible: true,
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(() => QuizView());
-                    },
-                    child: const DirectExam(),
-                  ),
-                ),
-                 Text(
-                  '${controller.season.length} / ${controller.season.length} ',
-                  textAlign: TextAlign.right,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: controller.season.length,
-                    itemBuilder: (context, index) {
-                      final season = controller.season[index];
-                      log('Displaying lesson: ${season.nameAr}');
-                      return GestureDetector(
-                        onTap: () {},
-                        child: CheckItem(
-                          text: season.nameAr,
-                          text2: season.nameEn,
-                          lessonCompleted: season.isDone,
+            return Column(
+               children:
+                [
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Align(
+                     alignment: Alignment.topRight,
+                     child: Container(
+                     height: 25.w,
+                      width: 64.h,
+                     padding: const EdgeInsets.all(4.0),
+
+                      decoration: BoxDecoration(
+                    color: AppColor.lightblue,
+                    borderRadius: BorderRadius.circular(20),
+                                   ),
+                                             child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+
+                            SvgPicture.asset('assets/svg/Group.svg',width: 10,height: 10,),
+                            Text(
+                         '${controller.season.length} / ${controller.season.length} ',
+                              textAlign: TextAlign.right,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+                     ),
+                   ),
+                 ),
+                 Visibility(
+                   visible: true,
+                   child: GestureDetector(
+                     onTap: () {
+                       Get.to(() => QuizView());
+                     },
+                     child: const DirectExam(),
+                   ),
+                 ),
+
+                 Expanded(
+                   child: ListView.builder(
+                     itemCount: controller.season.length,
+                     itemBuilder: (context, index) {
+                       final season = controller.season[index];
+                       log('Displaying lesson: ${season.nameAr}');
+                       return GestureDetector(
+                         onTap: () {},
+                         child: CheckItem(
+                           text: season.nameAr,
+                           text2: season.nameEn,
+                           lessonCompleted: season.isDone,
+                         ),
+                       );
+                     },
+                   ),
+                 ),
+               ],
             );
           }),
         ),
@@ -159,7 +179,7 @@ class CheckItem extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                    child: Text(
+                   child: Text(
                   text,
                   style: const TextStyle(
                     color: Colors.white,
@@ -169,6 +189,14 @@ class CheckItem extends StatelessWidget {
                 ),
                
               ),
+              Text(
+                  " / ",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.right,
+                ),
                Text(
                   text2,
                   style: const TextStyle(
@@ -226,9 +254,11 @@ class LessonController extends GetxController {
 
             } else {
         throw ServerFailure(response.data['msg'].toString());
+
       }
     } catch (e) {
       log('Error fetching season: $e');
+      
       // Handle the error, possibly by showing a message to the user
     } finally {
       isLoading.value = false;

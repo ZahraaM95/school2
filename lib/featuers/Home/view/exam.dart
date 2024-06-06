@@ -5,6 +5,7 @@ import 'package:flutter_application_9/controller/auth/login_controller.dart';
 import 'package:flutter_application_9/core/constant/color.dart';
 import 'package:flutter_application_9/featuers/Home/view/choese_lesson.dart';
 import 'package:flutter_application_9/featuers/quiz/quiz.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
@@ -38,13 +39,33 @@ class ChooseLesson extends StatelessWidget {
                 return const Center(child: Text('لا توجد دروس'));
               }
 
-              return ListView(
+              return Column(
                 children: [
-                  Align(
-                      alignment: Alignment.bottomRight,
-                    child: Text(
-                      '${controller.lessons.length}/ ${controller.lessons.length} ',
-                      textAlign: TextAlign.right,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        height: 25.w,
+                        width: 64.h,
+                        padding: const EdgeInsets.all(4.0),
+                        decoration: BoxDecoration(
+                          color: AppColor.lightblue,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+
+                            SvgPicture.asset('assets/svg/Group.svg',width: 10,height: 10,),
+                            Text(
+                               '${controller.lessons.length}/ ${controller.lessons.length} ',
+                              textAlign: TextAlign.right,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   Visibility(
